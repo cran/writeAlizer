@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Sterett H. Mercer (sterett.mercer@ubc.ca)" />
+
+
+<title>writeAlizer: Getting Started</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">writeAlizer: Getting Started</h1>
+<h4 class="author">Sterett H. Mercer (<a href="mailto:sterett.mercer@ubc.ca" class="email">sterett.mercer@ubc.ca</a>)</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#background" id="toc-background">Background</a>
+<ul>
+<li><a href="#prerequisites" id="toc-prerequisites">Prerequisites</a></li>
+</ul></li>
+<li><a href="#installation" id="toc-installation">Installation</a>
+<ul>
+<li><a href="#optional-model-dependencies" id="toc-optional-model-dependencies">Optional model
+dependencies</a></li>
+</ul></li>
+<li><a href="#quick-start" id="toc-quick-start">Quick start</a></li>
+<li><a href="#importing-data" id="toc-importing-data">Importing
+data</a></li>
+<li><a href="#predicting-writing-quality" id="toc-predicting-writing-quality">Predicting writing quality</a>
+<ul>
+<li><a href="#examples" id="toc-examples">Examples</a></li>
+</ul></li>
+<li><a href="#model-keys-at-a-glance-with-references" id="toc-model-keys-at-a-glance-with-references">Model keys at a glance
+(with references)</a></li>
+<li><a href="#working-with-the-model-download-cache" id="toc-working-with-the-model-download-cache">Working with the model
+download cache</a></li>
+</ul>
+</div>
+
+<blockquote>
+<p>A practical walkthrough of the key functions in
+<strong>writeAlizer</strong>: importing analysis outputs (ReaderBench,
+Coh‑Metrix, GAMET), and running predictive models with
+<code>predict_quality()</code>.</p>
+</blockquote>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>The <strong>writeAlizer</strong> package downloads predictive models
+for writing quality and written-expression CBM scores and applies these
+models to your data. More details on model development can be found in
+the <strong>writeAlizer</strong> <a href="https://github.com/shmercer/writeAlizer/wiki">wiki</a>.</p>
+<div id="prerequisites" class="section level3">
+<h3>Prerequisites</h3>
+<p>writeAlizer accepts the following output files as inputs: 1.
+ReaderBench: writeAlizer supports output files (.csv format) generated
+from the Java version of ReaderBench. <a href="https://github.com/readerbench/readerbench-java">Source Code</a>
+<a href="https://osf.io/wyq4t">Windows Binaries</a> 2. Coh-Metrix:
+writeAlizer supports output files from Coh-Metrix version 3.0 (.csv
+format). 3. GAMET: writeAlizer supports output files from GAMET version
+1.0 (.csv format).</p>
+<p>The writeAlizer scoring models assume that column names in the output
+files have been unchanged (exactly the same as generated from the
+program). For programs that list file paths in the first column, the
+writeAlizer file import functions will parse the file names from the
+file paths and store the file names as an identification variable (ID).
+<code>import_rb()</code> (ReaderBench) and <code>import_coh()</code>
+(Coh-Metrix) keep IDs as <strong>character</strong>. For ReaderBench
+CSVs, the original <code>File.name</code> column is renamed to
+<code>ID</code> and stored as character. Numeric IDs are fine too, but
+they are not coerced to numeric to avoid losing leading zeros or other
+formatting.</p>
+</div>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p><strong>writeAlizer</strong> is available on CRAN.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;writeAlizer&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(writeAlizer)</span></code></pre></div>
+<p>To install the development version of
+<strong>writeAlizer</strong>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># From GitHub</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#using the pak package</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#install.packages(&quot;pak&quot;)</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">&quot;shmercer/writeAlizer&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#or using devtools</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;shmercer/writeAlizer&quot;</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">library</span>(writeAlizer)</span></code></pre></div>
+<div id="optional-model-dependencies" class="section level3">
+<h3>Optional model dependencies</h3>
+<p>Some model families require packages listed in
+<strong>Suggests</strong>. Discover what you need locally:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>md <span class="ot">&lt;-</span> writeAlizer<span class="sc">::</span><span class="fu">model_deps</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>md<span class="sc">$</span>required   <span class="co"># packages already available</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>md<span class="sc">$</span>missing    <span class="co"># packages you may want to install for full functionality</span></span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="quick-start" class="section level2">
+<h2>Quick start</h2>
+<p>This minimal example shows how to import a small sample dataset that
+ships with the package and (optionally) run a model you have available
+locally.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Load a small ReaderBench sample shipped with the package</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>rb_path <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;sample_rb.csv&quot;</span>, <span class="at">package =</span> <span class="st">&quot;writeAlizer&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>rb <span class="ot">&lt;-</span> <span class="fu">import_rb</span>(rb_path)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">head</span>(rb)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># Example: run a ReaderBench predictive model (model artifacts will be downloaded on the first run)</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>quality <span class="ot">&lt;-</span> <span class="fu">predict_quality</span>(<span class="st">&quot;rb_mod3all&quot;</span>, rb)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">head</span>(quality)</span></code></pre></div>
+<hr />
+</div>
+<div id="importing-data" class="section level2">
+<h2>Importing data</h2>
+<p><strong>About the examples below:</strong> each code snippet loads a
+<strong>small example CSV</strong> that ships with the package using
+<code>system.file(...)</code>. Replace with your own files when running
+analyses on your data. <code>writeAlizer</code> expects tidy CSV outputs
+from common text analysis tools. Use the matching import helper for each
+format:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># ReaderBench CSV   rb_path  &lt;- system.file(&quot;extdata&quot;, &quot;sample_rb.csv&quot;,    package = &quot;writeAlizer&quot;)</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>rb  <span class="ot">&lt;-</span> <span class="fu">import_rb</span>(rb_path)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># Coh‑Metrix CSV    coh_path &lt;- system.file(&quot;extdata&quot;, &quot;sample_coh.csv&quot;,   package = &quot;writeAlizer&quot;)</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>coh <span class="ot">&lt;-</span> <span class="fu">import_coh</span>(coh_path)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># GAMET CSV         gam_path &lt;- system.file(&quot;extdata&quot;, &quot;sample_gamet.csv&quot;, package = &quot;writeAlizer&quot;)</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>gam <span class="ot">&lt;-</span> <span class="fu">import_gamet</span>(gam_path)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># Peek at structure</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">str</span>(rb)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">str</span>(coh)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">str</span>(gam)</span></code></pre></div>
+<p>All three imports return a <code>data.frame</code> with an
+<code>ID</code> column; <code>predict_quality()</code> relies on that
+<code>ID</code> to keep rows aligned in outputs.</p>
+<hr />
+</div>
+<div id="predicting-writing-quality" class="section level2">
+<h2>Predicting writing quality</h2>
+<p>Use <code>predict_quality(model, data)</code> to run one of the
+built‑in model families:</p>
+<ul>
+<li><strong>ReaderBench</strong>: <code>rb_mod1</code>,
+<code>rb_mod2</code>, <code>rb_mod3narr</code>, <code>rb_mod3exp</code>,
+<code>rb_mod3per</code>, <code>rb_mod3all</code></li>
+<li><strong>Coh‑Metrix</strong>: <code>coh_mod1</code>,
+<code>coh_mod2</code>, <code>coh_mod3narr</code>,
+<code>coh_mod3exp</code>, <code>coh_mod3per</code>,
+<code>coh_mod3all</code></li>
+<li><strong>GAMET</strong> (CWS/CIWS): <code>gamet_cws1</code></li>
+<li><strong>Offline demo</strong>: <code>example</code></li>
+</ul>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># ReaderBench -&gt; holistic quality</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>rb_quality <span class="ot">&lt;-</span> <span class="fu">predict_quality</span>(<span class="st">&quot;rb_mod3all&quot;</span>, rb)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">head</span>(rb_quality)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># Coh‑Metrix -&gt; holistic quality</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>coh_quality <span class="ot">&lt;-</span> <span class="fu">predict_quality</span>(<span class="st">&quot;coh_mod3all&quot;</span>, coh)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">head</span>(coh_quality)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># GAMET -&gt; CWS and CIWS (two prediction columns)</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>gamet_scores <span class="ot">&lt;-</span> <span class="fu">predict_quality</span>(<span class="st">&quot;gamet_cws1&quot;</span>, gam)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">head</span>(gamet_scores)</span></code></pre></div>
+<p><strong>Return value.</strong> A <code>data.frame</code> with
+<code>ID</code> plus one column per sub‑model prediction (prefixed
+<code>pred_</code>). When there are multiple numeric prediction columns
+(and the model isn’t <code>gamet_cws1</code>), a row‑wise mean column
+(e.g., <code>score_mean</code>) is added to summarize overall
+quality.</p>
+<hr />
+</div>
+</div>
+<div id="model-keys-at-a-glance-with-references" class="section level2">
+<h2>Model keys at a glance (with references)</h2>
+<p>Use this table to pick a model and keep track of published uses. Fill
+the <strong>References</strong> column with citations (e.g., “Smith
+&amp; Lee, 2022; doi:…”) as you go.</p>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model key</th>
+<th>Data source / import</th>
+<th>Target(s) predicted</th>
+<th>Output columns (typical)</th>
+<th>Notes/References (published uses)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rb_mod1</code></td>
+<td>ReaderBench → <code>import_rb()</code></td>
+<td>Holistic writing quality</td>
+<td><code>ID</code>, <code>pred_rb_mod1</code>,
+<code>score_mean</code></td>
+<td><span class="citation">(Keller-Margulis et al., 2021; Matta et al.,
+2022; Mercer &amp; Cannon, 2022)</span></td>
+</tr>
+<tr class="even">
+<td><code>rb_mod2</code></td>
+<td>ReaderBench → <code>import_rb()</code></td>
+<td>Holistic writing quality</td>
+<td><code>ID</code>, <code>pred_rb_mod2</code>,
+<code>score_mean</code></td>
+<td>This is a simplified version of rb_mod1 that handles errors on
+multi-paragraph compositions. <span class="citation">(Matta et al.,
+2023)</span></td>
+</tr>
+<tr class="odd">
+<td><code>rb_mod3narr</code></td>
+<td>ReaderBench → <code>import_rb()</code></td>
+<td>Narrative genre quality</td>
+<td><code>ID</code>, <code>pred_rb_mod3narr</code>,
+<code>score_mean</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>rb_mod3exp</code></td>
+<td>ReaderBench → <code>import_rb()</code></td>
+<td>Expository genre quality</td>
+<td><code>ID</code>, <code>pred_rb_mod3exp</code>,
+<code>score_mean</code></td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>rb_mod3per</code></td>
+<td>ReaderBench → <code>import_rb()</code></td>
+<td>Persuasive genre quality</td>
+<td><code>ID</code>, <code>pred_rb_mod3per</code>,
+<code>score_mean</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>rb_mod3all</code></td>
+<td>ReaderBench → <code>import_rb()</code></td>
+<td>Holistic (all‑genre) quality</td>
+<td><code>ID</code>, <code>pred_rb_mod3all</code>,
+<code>score_mean</code></td>
+<td>*Recommended ReaderBench model for use</td>
+</tr>
+<tr class="odd">
+<td><code>coh_mod1</code></td>
+<td>Coh‑Metrix → <code>import_coh()</code></td>
+<td>Holistic writing quality</td>
+<td><code>ID</code>, <code>pred_coh_mod1</code>,
+<code>score_mean</code></td>
+<td><span class="citation">(Keller-Margulis et al., 2021; Matta et al.,
+2022)</span></td>
+</tr>
+<tr class="even">
+<td><code>coh_mod2</code></td>
+<td>Coh‑Metrix → <code>import_coh()</code></td>
+<td>Holistic writing quality</td>
+<td><code>ID</code>, <code>pred_coh_mod2</code>,
+<code>score_mean</code></td>
+<td>This is a simplified version of coh_mod1</td>
+</tr>
+<tr class="odd">
+<td><code>coh_mod3narr</code></td>
+<td>Coh‑Metrix → <code>import_coh()</code></td>
+<td>Narrative genre quality</td>
+<td><code>ID</code>, <code>pred_coh_mod3narr</code>,
+<code>score_mean</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>coh_mod3exp</code></td>
+<td>Coh‑Metrix → <code>import_coh()</code></td>
+<td>Expository genre quality</td>
+<td><code>ID</code>, <code>pred_coh_mod3exp</code>,
+<code>score_mean</code></td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><code>coh_mod3per</code></td>
+<td>Coh‑Metrix → <code>import_coh()</code></td>
+<td>Persuasive genre quality</td>
+<td><code>ID</code>, <code>pred_coh_mod3per</code>,
+<code>score_mean</code></td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><code>coh_mod3all</code></td>
+<td>Coh‑Metrix → <code>import_coh()</code></td>
+<td>Holistic (all‑genre) quality</td>
+<td><code>ID</code>, <code>pred_coh_mod3all</code>,
+<code>score_mean</code></td>
+<td>*Recommended Coh-Metrix model for use</td>
+</tr>
+<tr class="odd">
+<td><code>gamet_cws1</code></td>
+<td>GAMET → <code>import_gamet()</code></td>
+<td><strong>CWS</strong> and <strong>CIWS</strong></td>
+<td><code>ID</code>, <code>pred_cws</code>, <code>pred_ciws</code></td>
+<td><span class="citation">(Matta et al., 2025; Mercer et al.,
+2021)</span></td>
+</tr>
+<tr class="even">
+<td><code>example</code></td>
+<td>Any (demo)</td>
+<td>Minimal demo score(s)</td>
+<td><code>ID</code>, <code>pred_example</code>,
+<code>score_mean?</code></td>
+<td>Offline, CRAN‑safe mock; seeded via
+<code>wa_seed_example_models(&quot;example&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="working-with-the-model-download-cache" class="section level2">
+<h2>Working with the model download cache</h2>
+<p>The package downloads and caches model artifacts the first time you
+use a model.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># See where model artifacts are cached</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>writeAlizer<span class="sc">::</span><span class="fu">wa_cache_dir</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Clear cache if needed </span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>writeAlizer<span class="sc">::</span><span class="fu">wa_cache_clear</span>()</span></code></pre></div>
+<hr />
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
+<div id="ref-Keller-Margulis2022" class="csl-entry">
+Keller-Margulis, M. A., Mercer, S. H., &amp; Matta, M. (2021). Validity
+of automated text evaluation tools for written-expression
+curriculum-based measurement: A comparison study. <em>Reading and
+Writing: An Interdisciplinary Journal</em>, <em>34</em>, 2461–2480. <a href="https://doi.org/10.1007/s11145-021-10153-6">https://doi.org/10.1007/s11145-021-10153-6</a>
+</div>
+<div id="ref-Matta2025" class="csl-entry">
+Matta, M., Keller-Margulis, M. A., &amp; Mercer, S. H. (2025). Improving
+written-expression curriculum-based measurement feasibility with
+automated writing evaluation programs. <em>School Psychology</em>. <a href="https://doi.org/10.1037/spq0000691">https://doi.org/10.1037/spq0000691</a>
+</div>
+<div id="ref-Matta2022" class="csl-entry">
+Matta, M., Mercer, S. H., &amp; Keller-Margulis, M. A. (2022).
+Evaluating validity and bias for hand-calculated and automated written
+expression curriculum-based measurement scores. <em>Assessment in
+Education: Principles, Policy and Practice</em>, <em>29</em>, 200–218.
+<a href="https://doi.org/10.1080/0969594X.2022.2043240">https://doi.org/10.1080/0969594X.2022.2043240</a>
+</div>
+<div id="ref-Matta2023" class="csl-entry">
+Matta, M., Mercer, S. H., &amp; Keller-Margulis, M. A. (2023).
+Implications of bias in automated writing quality scores for fair and
+equitable assessment decisions. <em>School Psychology</em>,
+<em>38</em>(3), 173–181. <a href="https://doi.org/10.1037/spq0000517">https://doi.org/10.1037/spq0000517</a>
+</div>
+<div id="ref-Mercer2022" class="csl-entry">
+Mercer, S. H., &amp; Cannon, J. E. (2022). Validity of automated
+learning progress assessment in english written expression for students
+with learning difficulties. <em>Journal for Educational Research
+Online</em>, <em>14</em>, 40–63. <a href="https://doi.org/10.31244/jero.2022.01.03">https://doi.org/10.31244/jero.2022.01.03</a>
+</div>
+<div id="ref-Mercer2021" class="csl-entry">
+Mercer, S. H., Cannon, J. E., Squires, B., Guo, Y., &amp; Pinco, E.
+(2021). Accuracy of automated written expression curriculum-based
+measurement scoring. <em>Canadian Journal of School Psychology</em>,
+<em>36</em>, 304–317. <a href="https://doi.org/10.1177/0829573520987753">https://doi.org/10.1177/0829573520987753</a>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

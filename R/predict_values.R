@@ -1,19 +1,3 @@
-# writeAlizer: An R Package to Generate Automated Writing Quality and Curriculum-Based Measurement (CBM) Scores
-# Copyright (C) 2020 Sterett H. Mercer
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see https://www.gnu.org/licenses/.
-#
 # This file includes functions to generate predicted writing quality scores
 # and written expression curriculum-based measurement scores (CWS and CIWS)
 # from Readerbench, CohMetrix, and/or GAMET files.
@@ -116,6 +100,7 @@ preprocess <- function(model, data) {
 #' @importFrom utils write.table
 #' @importFrom stats predict
 #' @importFrom dplyr select
+#' @importFrom rlang abort
 #' @param model A string telling which scoring model to use.
 #' Options are:
 #' 'rb_mod1', 'rb_mod2', 'rb_mod3narr', 'rb_mod3exp',
@@ -136,7 +121,6 @@ preprocess <- function(model, data) {
 #' directory via \code{writeAlizer::wa_seed_example_models("example")}, so no downloads
 #' are attempted and checks stay fast. The temporary files created for the example are
 #' cleaned up at the end of the \code{\\examples{}}.
-#' @export
 #' @examples
 #' # Fast, offline example: seed a tiny 'example' model and predict (no downloads)
 #' coh_path <- system.file("extdata", "sample_coh.csv", package = "writeAlizer")
@@ -179,8 +163,43 @@ preprocess <- function(model, data) {
 #'   gamet_CWS_CIWS <- predict_quality("gamet_cws1", gam_file)
 #'   head(gamet_CWS_CIWS)
 #' }
+#' @export
 predict_quality <- function(model, data) {
-  stopifnot(is.data.frame(data), "ID" %in% names(data))
+  # ---- Argument validation with helpful guidance ----
+  # Catch common mistake where args are flipped:
+  if (is.data.frame(model) && !missing(data)) {
+    rlang::abort(
+      paste0(
+        "It looks like you passed `data` as the first argument.\n",
+        "The function signature is predict_quality(model, data).\n\n",
+        "Try one of:\n",
+        "  predict_quality(\"rb_mod3all\", your_data)\n",
+        "  predict_quality(model = \"rb_mod3all\", data = your_data)"
+      ),
+      .subclass = "writeAlizer_input_error"
+    )
+  }
+
+  if (!is.character(model) || length(model) != 1L || is.na(model) || !nzchar(model)) {
+    rlang::abort(
+      "`model` must be a non-empty character scalar (e.g., \"rb_mod3all\").",
+      .subclass = "writeAlizer_input_error"
+    )
+  }
+
+  if (!is.data.frame(data)) {
+    rlang::abort(
+      "`data` must be a data.frame produced by import_rb(), import_coh(), or import_gamet().",
+      .subclass = "writeAlizer_input_error"
+    )
+  }
+
+  if (!"ID" %in% names(data)) {
+    rlang::abort(
+      "`data` must include an `ID` column.",
+      .subclass = "writeAlizer_input_error"
+    )
+  }
 
   requested_model  <- model                       # for output naming
   canonical_model  <- .wa_canonical_model(model)  # for artifact/varlist loading
@@ -207,42 +226,80 @@ predict_quality <- function(model, data) {
     "coh_mod3exp"    = "coh_mod3exp",
     "coh_mod3per"    = "coh_mod3per",
     "gamet_cws1"     = c("CWS_mod1a", "CIWS_mod1a"),
-    "example"        = "example",                       # <-- NEW
-    stop(sprintf("Unknown model key '%s' (canonicalized from '%s')",
-                 canonical_model, requested_model))
+    "example"        = "example",
+    {
+      valid <- c(
+        "rb_mod1","rb_mod2","rb_mod3narr","rb_mod3exp","rb_mod3per","rb_mod3all",
+        "coh_mod1","coh_mod2","coh_mod3narr","coh_mod3exp","coh_mod3per","coh_mod3all",
+        "gamet_cws1","example"
+      )
+      rlang::abort(
+        sprintf(
+          "Unknown model key '%s' (canonicalized from '%s'). Valid options are: %s.\nSee ?predict_quality for details.",
+          canonical_model, requested_model, paste(valid, collapse = ", ")
+        ),
+        .subclass = "writeAlizer_model_unknown"
+      )
+    }
   )
 
   if (length(fit_names) != length(data_pp)) {
-    stop(sprintf("Mismatch: expected %d sub-models, got %d preprocessed splits.",
-                 length(fit_names), length(data_pp)))
-  }
-  missing <- setdiff(fit_names, names(fits))
-  if (length(missing)) {
-    stop(sprintf("Missing trained objects for model '%s': %s",
-                 canonical_model, paste(missing, collapse = ", ")))
+    rlang::abort(
+      sprintf(
+        "Internal mismatch: expected %d sub-model(s), but preprocessing produced %d split(s).",
+        length(fit_names), length(data_pp)
+      ),
+      .subclass = "writeAlizer_internal_mismatch"
+    )
   }
 
-  #outward display names have '_v2' stripped for RB mod3
+  missing <- setdiff(fit_names, names(fits))
+  if (length(missing)) {
+    mock_dir <- getOption("writeAlizer.mock_dir")
+    hint <- if (is.character(mock_dir) && nzchar(mock_dir)) {
+      sprintf(
+        "\nNote: writeAlizer.mock_dir is set to '%s'. If you're running the offline demo, (re)seed with writeAlizer::wa_seed_example_models(\"example\") or clear the option.",
+        mock_dir
+      )
+    } else {
+      ""
+    }
+    rlang::abort(
+      paste0(
+        sprintf("Missing trained objects for model '%s': %s.",
+                canonical_model, paste(missing, collapse = ", ")),
+        hint
+      ),
+      .subclass = "writeAlizer_artifact_missing"
+    )
+  }
+
+  # outward display names have '_v2' stripped for RB mod3
   strip_v2 <- function(x) sub("_v2$", "", x)
   out_names <- if (grepl("^rb_mod3", canonical_model)) strip_v2(fit_names) else fit_names
 
-  # 4) Predict per sub-model
+  # 4) Predict per sub-model (normalize each prediction to a plain vector)
   drop_id <- function(df) if ("ID" %in% names(df)) df[setdiff(names(df), "ID")] else df
   preds <- vector("list", length(fit_names))
   names(preds) <- out_names
 
   for (i in seq_along(fit_names)) {
     newx <- drop_id(data_pp[[i]])
-    preds[[out_names[[i]]]] <- predict(fits[[fit_names[[i]]]], newdata = newx)
+    p <- predict(fits[[fit_names[[i]]]], newdata = newx)
+
+    # --- Robust coercion so we always assign a simple numeric/character vector ---
+    if (is.data.frame(p)) p <- p[[1]]
+    if (is.matrix(p))     p <- p[, 1, drop = TRUE]
+    preds[[out_names[[i]]]] <- p
   }
 
   # 5) Assemble output with outward names
   out <- data.frame(ID = data$ID, stringsAsFactors = FALSE)
   for (nm in out_names) out[[paste0("pred_", nm)]] <- preds[[nm]]
 
-  # Mean column: pred_<model>_mean, with any trailing _v2 removed
+  # 6) Add mean column when appropriate: pred_<model>_mean (skip for GAMET)
   pred_cols <- grep("^pred_", names(out), value = TRUE)
-  if (requested_model != "gamet_cws1" &&
+  if (canonical_model != "gamet_cws1" &&
       length(pred_cols) > 1 &&
       all(vapply(out[pred_cols], is.numeric, logical(1)))) {
     model_for_mean <- sub("_v2$", "", requested_model)
@@ -251,4 +308,3 @@ predict_quality <- function(model, data) {
 
   out
 }
-
