@@ -1,13 +1,13 @@
-c1eb9109228ff09d04ad71247943d4e4 *DESCRIPTION
+757ddd3915b43c30b9eaad1b68584873 *DESCRIPTION
 b49900db9e2e7c55086e4d5021fd017b *LICENSE
 251d4e965c50888fb64e3c365adf9a87 *NAMESPACE
-279784755b39eb062c494a5eb8ff0c41 *NEWS.md
+a653411d9ac82824105e583df50d80ba *NEWS.md
 8696812b96c5af97b36eada9bf464044 *R/artifact_registry.R
 970d857294a56ea32ca2bbbf36434de4 *R/cache.R
 43d2326ceefe1c17375c492562460020 *R/download.R
 9f6c6b2010bf6f0c07cba71412c7a48d *R/file_utilities.R
 05e79de5eea4afb780ff51dbb2ddd082 *R/model_deps.R
-a90cc4d12bcbf8f5c1660dc21ce40f03 *R/predict_values.R
+c67e846232e1962d4652a59eba7709aa *R/predict_values.R
 ba332cfdf04679bfcbdfa5a73c49282a *R/seed_example_helpers.R
 78038061a335ca682a7a57b7e87fd9f4 *R/writeAlizer.R
 4fdb3e101a0cc33a6936a177411a5727 *README.md
@@ -26,7 +26,7 @@ a70d13e744a09aa23489e18523a28c75 *man/import_gamet.Rd
 69ffc69586a97b9e602628d95d95bf2c *man/import_merge_gamet_rb.Rd
 ef6f8db89cf61f383285562ca4ab5b28 *man/import_rb.Rd
 a055c92be34292352d453600f2d2523c *man/model_deps.Rd
-7c50156f016fa94649ffbe611b86f31c *man/predict_quality.Rd
+30eb1f6e3666bc8a86f947be43ec7e6f *man/predict_quality.Rd
 1ec32c0ac0452d43754b49c1276ef75c *man/preprocess.Rd
 9bc0efd926a41783cbf5d416d1b7340f *man/wa_cache_clear.Rd
 a14928806c8043b95b89cd4ca9b5a48d *man/wa_cache_dir.Rd
@@ -59,7 +59,7 @@ dc89866bcaefa4bff5dda3c99e370830 *tests/testthat/test-file-utilities-more.R
 72788ee3dcfa0c477ee86556cc816790 *tests/testthat/test-helper-urls.R
 8d2c83dc90900317069256dfd038b445 *tests/testthat/test-import-rb-namebased.R
 485171796b6477578bdab4b499a126d9 *tests/testthat/test-import-validation.R
-31f96a0c459b5423ec5e4597c536e5fc *tests/testthat/test-integration-predict_quality.R
+c931dad810a62770f1caf88ccf7db647 *tests/testthat/test-integration-predict_quality.R
 9d160ad3910152cc678f870dfaf13993 *tests/testthat/test-model-deps.R
 e4aa9005c6a26013490127fdcbd03619 *tests/testthat/test-predict-values-input.R
 71538df18b74b898f90d34cd4aba0d97 *tests/testthat/test-predict-values-negative.R
