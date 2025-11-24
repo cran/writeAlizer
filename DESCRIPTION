@@ -1,8 +1,8 @@
 Type: Package
 Package: writeAlizer
 Title: Generate Predicted Writing Quality Scores
-Version: 1.7.1
-Date: 2025-10-22
+Version: 1.7.2
+Date: 2025-11-24
 Authors@R: 
     person("Sterett H.", "Mercer", , "sterett.mercer@ubc.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7940-4221"))
@@ -16,7 +16,8 @@ Description: Imports variables from 'ReaderBench' (Dascalu et al.,
     writing quality and curriculum-based measurement (McMaster & Espin,
     2007)<doi:10.1177/00224669070410020301> scores.
 License: MIT + file LICENSE
-URL: https://github.com/shmercer/writeAlizer/
+URL: https://github.com/shmercer/writeAlizer/,
+        https://shmercer.github.io/writeAlizer/
 BugReports: https://github.com/shmercer/writeAlizer/issues
 Depends: R (>= 2.10)
 Imports: caret, cli, digest, dplyr, glue, magrittr, rlang (>= 1.1.0),
@@ -29,9 +30,9 @@ Language: en-US
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2025-10-22 17:23:03 UTC; shmer
+Packaged: 2025-11-24 22:54:19 UTC; shmer
 Author: Sterett H. Mercer [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-7940-4221>)
 Maintainer: Sterett H. Mercer <sterett.mercer@ubc.ca>
 Repository: CRAN
-Date/Publication: 2025-10-23 10:40:02 UTC
+Date/Publication: 2025-11-24 23:10:02 UTC

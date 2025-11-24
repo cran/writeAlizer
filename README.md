@@ -9,20 +9,26 @@
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/shmercer/writeAlizer/blob/master/LICENSE.md)
 <!-- badges: end -->
 
-This repository hosts code for an [R package](https://cran.r-project.org/) to apply research-based writing scoring models (see references below). In addition, this repository hosts documentation as an electronic supplement to published research articles in the [repository wiki](https://github.com/shmercer/writeAlizer/wiki).
+This repository hosts code for an [R package](https://cran.r-project.org/) to apply research-based writing scoring models (see references below).
 
-The writeAlizer R package (a) imports [ReaderBench](https://github.com/readerbench/readerbench-java), [Coh-Metrix](https://soletlab.asu.edu/coh-metrix/), and [GAMET](https://www.linguisticanalysistools.org/gamet.html) output files into R, (b) downloads existing predictive scoring models to the local machine, and (c) uses the predictive scoring models to generate predicted writing quality scores or Correct Word Sequences and Correct Minus Incorrect Word Sequences scores from the ReaderBench, Coh-Metrix, and/or GAMET files.
+The writeAlizer R package (a) imports [ReaderBench](https://github.com/readerbench/readerbench-java), [Coh-Metrix](https://soletlab.asu.edu/coh-metrix/), and [GAMET](https://www.linguisticanalysistools.org/gamet.html) output files into R, (b) downloads existing predictive scoring models to the local machine, and (c) uses the predictive scoring models to generate predicted writing quality scores from the ReaderBench or Coh-Metrix files, and generates Total Words Written, Words Spelled Correctly, Correct Word Sequences, and Correct Minus Incorrect Word Sequences scores from GAMET files.
 
 ### Versions
 The version history of writeAlizer is available in the package [NEWS.md](https://github.com/shmercer/writeAlizer/blob/master/NEWS.md) file.
 
 ## Getting Started
 
+For a step‑by‑step walkthrough of installing and using **writeAlizer**, see the online tutorial:
+<https://shmercer.github.io/writeAlizer/articles/writealizer-getting-started.html>
+
+Documentation of **writeAlizer** functions can be found here:
+<https://shmercer.github.io/writeAlizer/reference/index.html>
+
 ### Prerequisites
 writeAlizer accepts the following output files as inputs:
- 1. ReaderBench: writeAlizer supports output files (.csv format) generated from the Java version of ReaderBench. [Source Code](https://github.com/readerbench/readerbench-java) [Windows Binaries](https://osf.io/wyq4t)
- 2. Coh-Metrix: writeAlizer supports output files from Coh-Metrix version 3.0 (.csv format).
- 3. GAMET: writeAlizer supports output files from GAMET version 1.0 (.csv format).
+ 1. ReaderBench: writeAlizer supports output files (.csv format) generated from the Java version of ReaderBench. [Source Code](https://github.com/readerbench/readerbench-java) [Download for Windows](https://osf.io/wyq4t)
+ 2. Coh-Metrix: writeAlizer supports output files from Coh-Metrix version 3.0 (.csv format). [Request a Copy of Coh-Metrix](https://soletlab.asu.edu/coh-metrix/)
+ 3. GAMET: writeAlizer supports output files from GAMET version 1.0 (.csv format). [Download for Windows and Mac](https://www.linguisticanalysistools.org/gamet.html)
 
 The writeAlizer scoring models assume that column names in the output files have been unchanged (exactly the same as generated from the program). For programs that list file paths in the first column, the writeAlizer file import functions will parse the file names from the file paths and store the file names as an identification variable (ID). `import_rb()` (ReaderBench) and `import_coh()` (Coh-Metrix) keep IDs as **character**. For ReaderBench CSVs, the original `File.name` column is renamed to `ID` and stored as character. Numeric IDs are fine too, but they are not coerced to numeric to avoid losing leading zeros or other formatting.
 
@@ -110,17 +116,17 @@ wa_cache_clear()
 
 ## Documentation
 
-Information on the various scoring models available and how they were developed is in this repository's [wiki](https://github.com/shmercer/writeAlizer/wiki):
+Information on the various scoring models available and how they were developed is available [here](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html).
 
-1. [Description of the general process used to develop scoring algorithms](https://github.com/shmercer/writeAlizer/wiki/Scoring-Model-Development).
+1. [Description of the general process used to develop scoring algorithms](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#scoring-model-development).
 2. Description of the following specific scoring models (models recommended for use in research are indicated by *), including information on the relative importance of metrics and weighting of algorithms:
-   * [Coh-Metrix Model 1](https://github.com/shmercer/writeAlizer/wiki/CohMetrix-Model-1)
-   * [Coh-Metrix Model 2](https://github.com/shmercer/writeAlizer/wiki/CohMetrix-Model-2)
-   * [Coh-Metrix Model 3*](https://github.com/shmercer/writeAlizer/wiki/CohMetrix-Model-3)
-   * [ReaderBench Model 1](https://github.com/shmercer/writeAlizer/wiki/ReaderBench-Model-1)
-   * [ReaderBench Model 2](https://github.com/shmercer/writeAlizer/wiki/ReaderBench-Model-2)
-   * [ReaderBench Model 3*](https://github.com/shmercer/writeAlizer/wiki/ReaderBench-Model-3)
-   * [Automated Written Expression CBM Model 1](https://github.com/shmercer/writeAlizer/wiki/aWE-CBM-Model-1)
+   * [Coh-Metrix Model 1](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#cohmetrix-model-1)
+   * [Coh-Metrix Model 2](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#cohmetrix-model-2)
+   * [Coh-Metrix Model 3*](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#cohmetrix-model-3)
+   * [ReaderBench Model 1](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#readerbench-model-1)
+   * [ReaderBench Model 2](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#readerbench-model-2)
+   * [ReaderBench Model 3*](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#readerbench-model-3)
+   * [Automated Written Expression CBM Model 1](https://shmercer.github.io/writeAlizer/articles/scoring-model-development.html#awecbm-model-1)
 
 ## Package Author and Maintainer
 
