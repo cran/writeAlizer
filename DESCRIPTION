@@ -1,8 +1,8 @@
 Type: Package
 Package: writeAlizer
 Title: Generate Predicted Writing Quality Scores
-Version: 1.7.2
-Date: 2025-11-24
+Version: 1.7.3
+Date: 2026-2-16
 Authors@R: 
     person("Sterett H.", "Mercer", , "sterett.mercer@ubc.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7940-4221"))
@@ -30,9 +30,9 @@ Language: en-US
 RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2025-11-24 22:54:19 UTC; shmer
+Packaged: 2026-02-16 17:42:52 UTC; sterett
 Author: Sterett H. Mercer [aut, cre] (ORCID:
     <https://orcid.org/0000-0002-7940-4221>)
 Maintainer: Sterett H. Mercer <sterett.mercer@ubc.ca>
 Repository: CRAN
-Date/Publication: 2025-11-24 23:10:02 UTC
+Date/Publication: 2026-02-17 06:10:13 UTC
